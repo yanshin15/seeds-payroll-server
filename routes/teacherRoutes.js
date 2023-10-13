@@ -24,7 +24,7 @@ router.put("/:id", updateTeacher);
 //Delete a teacher
 router.delete("/:id", deleteTeacher);
 
-//Payroll
-router.get("/pay/:id", payTeacher);
+//Payrollpay
+router.get("/pay/all", payTeacher);
 
 module.exports = router;

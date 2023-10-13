@@ -59,13 +59,17 @@ const deleteTeacher = async (req, res) => {
 
 const payTeacher = async (req, res) => {
   try {
-    const { id } = req.params;
-    const teacher = await Teacher.findById(id);
-    const rate = teacher.rate;
-    const hours_worked = teacher.hours_worked;
-    const payroll = rate * hours_worked;
-
-    res.status(200).json(payroll);
+    const payrollArr = [];
+    const teachers = await Teacher.find({});
+    teachers.forEach((teacher) => {
+      const payroll = teacher.rate * teacher.hours_worked;
+      payrollArr.push({
+        name: teacher.name,
+        payroll: payroll,
+      });
+    });
+    console.log(payrollArr);
+    res.status(200).json(payrollArr);
   } catch (error) {
     res.status(500).json(error.message);
   }
