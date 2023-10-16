@@ -65,6 +65,8 @@ const payTeacher = async (req, res) => {
       const payroll = teacher.rate * teacher.hours_worked;
       payrollArr.push({
         name: teacher.name,
+        subject: teacher.subject,
+        class_type: teacher.class_type,
         payroll: payroll,
       });
     });
