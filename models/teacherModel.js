@@ -10,6 +10,11 @@ const teacherSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    class_type: {
+      type: String,
+      enum: ["Online", "On-site"],
+      required: true,
+    },
     rate: {
       type: Number,
       required: true,
