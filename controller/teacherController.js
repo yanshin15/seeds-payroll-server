@@ -61,6 +61,7 @@ const payTeacher = async (req, res) => {
   try {
     const payrollArr = [];
     const teachers = await Teacher.find({});
+
     teachers.forEach((teacher) => {
       const payroll = teacher.rate * teacher.hours_worked;
       payrollArr.push({
@@ -70,8 +71,40 @@ const payTeacher = async (req, res) => {
         payroll: payroll,
       });
     });
-    console.log(payrollArr);
     res.status(200).json(payrollArr);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+const calcPay = async (req, res) => {
+  try {
+    const teachers = await Teacher.find({});
+    let overall = 0;
+    let onlineTotal = 0;
+    let onsiteTotal = 0;
+
+    const totalByClassType = (teacher, payroll) => {
+      if (teacher.class_type === "Online") {
+        onlineTotal += payroll;
+      } else {
+        onsiteTotal += payroll;
+      }
+    };
+
+    teachers.forEach((teacher) => {
+      const payroll = teacher.rate * teacher.hours_worked;
+      overall += payroll;
+      totalByClassType(teacher, payroll);
+    });
+
+    const calcObj = {
+      overall: overall,
+      onlineTotal: onlineTotal,
+      onsiteTotal: onsiteTotal,
+    };
+
+    res.status(200).json(calcObj);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -84,4 +117,5 @@ module.exports = {
   updateTeacher,
   deleteTeacher,
   payTeacher,
+  calcPay,
 };

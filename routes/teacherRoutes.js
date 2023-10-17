@@ -6,6 +6,7 @@ const {
   updateTeacher,
   deleteTeacher,
   payTeacher,
+  calcPay,
 } = require("../controller/teacherController");
 const router = express.Router();
 
@@ -26,5 +27,8 @@ router.delete("/:id", deleteTeacher);
 
 //Payrollpay
 router.get("/pay/all", payTeacher);
+
+//Calculate totals
+router.get("/calculate/all", calcPay);
 
 module.exports = router;
